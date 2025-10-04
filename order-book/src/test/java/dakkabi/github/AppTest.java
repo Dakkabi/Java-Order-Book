@@ -1,4 +1,4 @@
-package io.github;
+package dakkabi.github;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

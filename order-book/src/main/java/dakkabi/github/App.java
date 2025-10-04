@@ -1,4 +1,4 @@
-package io.github;
+package dakkabi.github;
 
 /**
  * Hello world!
