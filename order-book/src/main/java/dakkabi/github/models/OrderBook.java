@@ -18,8 +18,8 @@ public class OrderBook {
       }
     };
 
-    bidOrders = new PriorityQueue<>(priceDecreasing);
-    askOrders = new PriorityQueue<>(priceDecreasing.reversed());
+    bidOrders = new PriorityQueue<>(priceDecreasing.reversed());
+    askOrders = new PriorityQueue<>(priceDecreasing);
   }
 
   /**
@@ -36,7 +36,7 @@ public class OrderBook {
       throw new IllegalArgumentException("Unknown side " + order.getSide());
     }
   }
-
+  
   public Order getBestBid() {
     return bidOrders.peek();
   }
