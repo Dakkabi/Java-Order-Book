@@ -37,7 +37,7 @@ jobs:
           cache: maven
 
       - name: Run Test
-        uses: mvn test --file ${{ env.POM_DIR }}
+        run: mvn test --file ${{ env.POM_DIR }}
 
   checkstyle:
     runs-on: ubuntu-latest
