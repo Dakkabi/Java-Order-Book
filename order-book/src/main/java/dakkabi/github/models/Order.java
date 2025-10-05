@@ -1,8 +1,31 @@
 package dakkabi.github.models;
 
 /**
- * A class representing a buyer's or seller's intention to buy or sell the asset.
+ * An immutable class representing a buyer's or seller's intention to buy or sell the asset.
  */
 public class Order {
+  final private SideEnum side;
+  final private long price;
+  final private long quantity;
 
+  Order(SideEnum side, long price, long quantity) {
+    this.side = side;
+
+    if (quantity < 0) {
+      throw new IllegalArgumentException("Quantity cannot be negative");
+    }
+
+    this.price = price;
+    this.quantity = quantity;
+  }
+
+  public SideEnum getSide() {
+    return side;
+  }
+  public long getPrice() {
+    return price;
+  }
+  public long getQuantity() {
+    return quantity;
+  }
 }
