@@ -4,6 +4,8 @@ import dakkabi.github.service.OrderBookService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
+import java.io.IOException;
+
 /**
  * Entry-point for the Server application.
  */
@@ -13,7 +15,10 @@ public class GrpcServer {
    *
    * @param args Optional arguments supplied to the program.
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException, InterruptedException {
     Server server = ServerBuilder.forPort(0).addService(new OrderBookService()).build();
+
+    server.start();
+    server.awaitTermination();
   }
 }
