@@ -8,17 +8,12 @@ import java.util.concurrent.atomic.AtomicLong;
  * Class representation of an order book, holding Order instances with a heap structure.
  */
 public class OrderBook {
-  private AtomicLong nextOrderId = new AtomicLong(0);
+  private final AtomicLong nextOrderId = new AtomicLong(0);
   private final PriorityQueue<Order> bidOrders;
   private final PriorityQueue<Order> askOrders;
 
   OrderBook() {
-    Comparator<Order> priceDecreasing = new Comparator<Order>() {
-      @Override
-      public int compare(Order order1, Order order2) {
-        return Double.compare(order1.getPrice(), order2.getPrice());
-      }
-    };
+    Comparator<Order> priceDecreasing = Comparator.comparingDouble(Order::getPrice);
 
     bidOrders = new PriorityQueue<>(priceDecreasing.reversed());
     askOrders = new PriorityQueue<>(priceDecreasing);
