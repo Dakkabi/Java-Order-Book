@@ -5,10 +5,10 @@ package dakkabi.github.models;
  */
 public class Order {
   private final SideEnum side;
-  private final long price;
+  private final double price;
   private final long quantity;
 
-  Order(SideEnum side, long price, long quantity) {
+  Order(SideEnum side, double price, long quantity) {
     this.side = side;
 
     if (quantity < 0) {
@@ -23,7 +23,7 @@ public class Order {
     return side;
   }
 
-  public long getPrice() {
+  public double getPrice() {
     return price;
   }
 

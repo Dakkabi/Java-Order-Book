@@ -14,7 +14,7 @@ public class OrderBook {
     Comparator<Order> priceDecreasing = new Comparator<Order>() {
       @Override
       public int compare(Order order1, Order order2) {
-        return Long.compare(order1.getPrice(), order2.getPrice());
+        return Double.compare(order1.getPrice(), order2.getPrice());
       }
     };
 

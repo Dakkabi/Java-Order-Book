@@ -10,13 +10,13 @@ public class OrderTest {
 
   @BeforeEach
   public void beforeEach() {
-    order = new Order(SideEnum.ASK, 100, 10);
+    order = new Order(SideEnum.ASK, 100.56d, 10);
   }
 
   @Test
   public void gettersTest() {
     assertEquals(SideEnum.ASK, order.getSide());
-    assertEquals(100L, order.getPrice());
+    assertEquals(100.56d, order.getPrice());
     assertEquals(10L, order.getQuantity());
   }
 }
