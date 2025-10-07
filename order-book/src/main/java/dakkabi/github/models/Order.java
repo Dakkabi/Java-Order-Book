@@ -5,11 +5,11 @@ package dakkabi.github.models;
  */
 public class Order {
   private Long id;
-  private final SideEnum side;
+  private final Side side;
   private final double price;
   private final long quantity;
 
-  Order(SideEnum side, double price, long quantity) {
+  Order(Side side, double price, long quantity) {
     this.side = side;
 
     if (quantity < 0) {
@@ -28,7 +28,7 @@ public class Order {
     this.id = id;
   }
 
-  public SideEnum getSide() {
+  public Side getSide() {
     return side;
   }
 

@@ -27,9 +27,9 @@ public class OrderBook {
   public void addOrder(Order order) {
     order.setId(nextOrderId.getAndIncrement());
 
-    if (order.getSide().equals(SideEnum.ASK)) {
+    if (order.getSide().equals(Side.ASK)) {
       askOrders.add(order);
-    } else if (order.getSide().equals(SideEnum.BID)) {
+    } else if (order.getSide().equals(Side.BID)) {
       bidOrders.add(order);
     } else {
       throw new IllegalArgumentException("Unknown side " + order.getSide());

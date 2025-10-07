@@ -10,7 +10,7 @@ public class OrderTest {
 
   @BeforeEach
   public void beforeEach() {
-    order = new Order(SideEnum.ASK, 100.56d, 10);
+    order = new Order(Side.ASK, 100.56d, 10);
   }
 
   @Test
@@ -18,7 +18,7 @@ public class OrderTest {
     order.setId(100);
 
     assertEquals(100, order.getId());
-    assertEquals(SideEnum.ASK, order.getSide());
+    assertEquals(Side.ASK, order.getSide());
     assertEquals(100.56d, order.getPrice());
     assertEquals(10L, order.getQuantity());
   }
