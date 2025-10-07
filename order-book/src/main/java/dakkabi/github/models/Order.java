@@ -4,6 +4,7 @@ package dakkabi.github.models;
  * An immutable class representing a buyer's or seller's intention to buy or sell the asset.
  */
 public class Order {
+  private Long id;
   private final SideEnum side;
   private final double price;
   private final long quantity;
@@ -17,6 +18,14 @@ public class Order {
 
     this.price = price;
     this.quantity = quantity;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   public SideEnum getSide() {

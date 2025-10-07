@@ -14,7 +14,10 @@ public class OrderTest {
   }
 
   @Test
-  public void gettersTest() {
+  public void gettersAndSettersTest() {
+    order.setId(100);
+
+    assertEquals(100, order.getId());
     assertEquals(SideEnum.ASK, order.getSide());
     assertEquals(100.56d, order.getPrice());
     assertEquals(10L, order.getQuantity());
