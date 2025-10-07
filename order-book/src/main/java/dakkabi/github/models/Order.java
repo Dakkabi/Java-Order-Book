@@ -10,7 +10,8 @@ public class Order {
   private final long quantity;
 
   /**
-   * Constructor for the Order class, excluding id attribute as that should be managed by the Order Book.
+   * Constructor for the Order class, excluding id attribute as that should be
+   * managed by the Order Book.
    *
    * @param side Whether the client intends to Buy or Sell.
    * @param price The price amount they are willing to Buy or Sell.
