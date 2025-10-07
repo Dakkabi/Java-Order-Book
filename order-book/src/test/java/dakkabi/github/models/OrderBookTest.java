@@ -3,6 +3,7 @@ package dakkabi.github.models;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class OrderBookTest {
 
@@ -23,5 +24,8 @@ public class OrderBookTest {
 
     assertEquals(100, orderBook.getBestAsk().getPrice());
     assertEquals(100, orderBook.getBestBid().getPrice());
+
+    assertEquals(0, orderBook.getBestAsk().getId());
+    assertNotEquals(orderBook.getBestAsk().getId(), orderBook.getBestBid().getId());
   }
 }
