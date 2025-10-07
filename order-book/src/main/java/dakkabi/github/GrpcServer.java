@@ -1,5 +1,7 @@
 package dakkabi.github;
 
+import dakkabi.github.models.Order;
+import dakkabi.github.models.OrderBook;
 import dakkabi.github.service.OrderBookService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -15,7 +17,7 @@ public class GrpcServer {
    * @param args Optional arguments supplied to the program.
    */
   public static void main(String[] args) throws IOException, InterruptedException {
-    Server server = ServerBuilder.forPort(0).addService(new OrderBookService()).build();
+    Server server = ServerBuilder.forPort(8080).addService(new OrderBookService()).build();
 
     server.start();
     server.awaitTermination();
