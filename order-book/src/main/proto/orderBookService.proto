@@ -1,22 +1,22 @@
 syntax = "proto3";
 option java_multiple_files = true;
-package dakkabi.github;
+package dakkabi.github.proto;
 
 enum Side {
   ASK = 0;
   BID = 1;
 }
 
-message createOrderRequest {
+message CreateOrderRequest {
   Side side = 1;
   double price = 2;
   sint64 quantity = 3; // Java long's are 64bit signed integers.
 }
 
-message createOrderResponse {
+message CreateOrderResponse {
   sint64 id = 1;
 }
 
-service OrderService {
-  rpc createOrder(createOrderRequest) returns (createOrderResponse);
+service OrderBookService {
+  rpc createOrder(CreateOrderRequest) returns (CreateOrderResponse);
 }
