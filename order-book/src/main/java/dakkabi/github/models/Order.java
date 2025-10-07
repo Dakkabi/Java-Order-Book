@@ -9,7 +9,14 @@ public class Order {
   private final double price;
   private final long quantity;
 
-  Order(Side side, double price, long quantity) {
+  /**
+   * Constructor for the Order class, excluding id attribute as that should be managed by the Order Book.
+   *
+   * @param side Whether the client intends to Buy or Sell.
+   * @param price The price amount they are willing to Buy or Sell.
+   * @param quantity The quantity they are willing to Buy or Sell.
+   */
+  public Order(Side side, double price, long quantity) {
     this.side = side;
 
     if (quantity < 0) {
