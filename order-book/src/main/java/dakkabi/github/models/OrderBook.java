@@ -12,7 +12,10 @@ public class OrderBook {
   private final PriorityQueue<Order> bidOrders;
   private final PriorityQueue<Order> askOrders;
 
-  OrderBook() {
+  /**
+   * Public constructor for OrderBook class.
+   */
+  public OrderBook() {
     Comparator<Order> priceDecreasing = Comparator.comparingDouble(Order::getPrice);
 
     bidOrders = new PriorityQueue<>(priceDecreasing.reversed());
