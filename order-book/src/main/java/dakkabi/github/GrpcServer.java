@@ -17,7 +17,9 @@ public class GrpcServer {
    * @param args Optional arguments supplied to the program.
    */
   public static void main(String[] args) throws IOException, InterruptedException {
-    Server server = ServerBuilder.forPort(8080).addService(new OrderBookService()).build();
+    OrderBook orderBook = new OrderBook();
+
+    Server server = ServerBuilder.forPort(8080).addService(new OrderBookService(orderBook)).build();
 
     server.start();
     server.awaitTermination();
