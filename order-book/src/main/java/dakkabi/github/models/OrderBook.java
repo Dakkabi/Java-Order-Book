@@ -26,8 +26,9 @@ public class OrderBook {
    * Add an order to its respective order book side.
    *
    * @param order The Order instance.
+   * @return An updated order instance with the id set.
    */
-  public void addOrder(Order order) {
+  public Order addOrder(Order order) {
     order.setId(nextOrderId.getAndIncrement());
 
     if (order.getSide().equals(Side.ASK)) {
@@ -37,6 +38,7 @@ public class OrderBook {
     } else {
       throw new IllegalArgumentException("Unknown side " + order.getSide());
     }
+    return order;
   }
   
   public Order getBestBid() {
