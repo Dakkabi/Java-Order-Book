@@ -2,21 +2,21 @@ package dakkabi.github.models;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Class representation of an order book, holding Order instances with a heap structure.
  */
 public class OrderBook {
+  private final AtomicLong nextOrderId = new AtomicLong(0);
   private final PriorityQueue<Order> bidOrders;
   private final PriorityQueue<Order> askOrders;
 
-  OrderBook() {
-    Comparator<Order> priceDecreasing = new Comparator<Order>() {
-      @Override
-      public int compare(Order order1, Order order2) {
-        return Long.compare(order1.getPrice(), order2.getPrice());
-      }
-    };
+  /**
+   * Public constructor for OrderBook class.
+   */
+  public OrderBook() {
+    Comparator<Order> priceDecreasing = Comparator.comparingDouble(Order::getPrice);
 
     bidOrders = new PriorityQueue<>(priceDecreasing.reversed());
     askOrders = new PriorityQueue<>(priceDecreasing);
@@ -26,15 +26,17 @@ public class OrderBook {
    * Add an order to its respective order book side.
    *
    * @param order The Order instance.
+   * @return An updated order instance with the id set.
    */
-  public void addOrder(Order order) {
-    if (order.getSide().equals(SideEnum.ASK)) {
+  public Order addOrder(Order order) {
+    order.setId(nextOrderId.getAndIncrement());
+
+    if (order.getSide().equals(Side.ASK)) {
       askOrders.add(order);
-    } else if (order.getSide().equals(SideEnum.BID)) {
-      bidOrders.add(order);
     } else {
-      throw new IllegalArgumentException("Unknown side " + order.getSide());
+      bidOrders.add(order);
     }
+    return order;
   }
   
   public Order getBestBid() {

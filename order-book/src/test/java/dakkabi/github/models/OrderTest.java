@@ -1,5 +1,6 @@
 package dakkabi.github.models;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,13 +11,21 @@ public class OrderTest {
 
   @BeforeEach
   public void beforeEach() {
-    order = new Order(SideEnum.ASK, 100, 10);
+    order = new Order(Side.ASK, 100.56d, 10);
   }
 
   @Test
-  public void gettersTest() {
-    assertEquals(SideEnum.ASK, order.getSide());
-    assertEquals(100L, order.getPrice());
+  public void gettersAndSettersTest() {
+    order.setId(100);
+
+    assertEquals(100, order.getId());
+    assertEquals(Side.ASK, order.getSide());
+    assertEquals(100.56d, order.getPrice());
     assertEquals(10L, order.getQuantity());
+  }
+
+  @Test
+  public void illegalArgumentExceptionTest() {
+    Assertions.assertThrows(IllegalArgumentException.class, () -> new Order(Side.ASK, 100.56d, -100));
   }
 }
