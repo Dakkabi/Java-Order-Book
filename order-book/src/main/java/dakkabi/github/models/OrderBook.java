@@ -33,10 +33,8 @@ public class OrderBook {
 
     if (order.getSide().equals(Side.ASK)) {
       askOrders.add(order);
-    } else if (order.getSide().equals(Side.BID)) {
-      bidOrders.add(order);
     } else {
-      throw new IllegalArgumentException("Unknown side " + order.getSide());
+      bidOrders.add(order);
     }
     return order;
   }
