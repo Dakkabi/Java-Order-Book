@@ -14,6 +14,11 @@ import io.grpc.stub.StreamObserver;
 public class OrderBookService extends OrderBookServiceImplBase {
   private final OrderBook orderBook;
 
+  /**
+   * Public constructor for OrderBookService, with an OrderBook parameter.
+   *
+   * @param orderBook The order book to manage.
+   */
   public OrderBookService(OrderBook orderBook) {
     this.orderBook = orderBook;
   }

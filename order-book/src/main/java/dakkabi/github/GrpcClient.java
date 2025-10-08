@@ -7,7 +7,15 @@ import dakkabi.github.proto.Side;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
+/**
+ * A client class to communicate with the gRPC server class.
+ */
 public class GrpcClient {
+  /**
+   * Main process for the gRPC client.
+   *
+   * @param args Optional additional parameters, does nothing.
+   */
   public static void main(String[] args) {
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
         .usePlaintext()
