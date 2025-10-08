@@ -1,5 +1,7 @@
 package dakkabi.github.service;
 
+import dakkabi.github.models.Order;
+import dakkabi.github.models.OrderBook;
 import dakkabi.github.models.Side;
 import dakkabi.github.proto.CreateOrderRequest;
 import dakkabi.github.proto.CreateOrderResponse;
@@ -10,14 +12,23 @@ import io.grpc.stub.StreamObserver;
  * Business logic class for OrderBook, including gRPC services.
  */
 public class OrderBookService extends OrderBookServiceImplBase {
+  private final OrderBook orderBook;
+
+  public OrderBookService(OrderBook orderBook) {
+    this.orderBook = orderBook;
+  }
+
   @Override
   public void createOrder(
       CreateOrderRequest request,
       StreamObserver<CreateOrderResponse> responseObserver
   ) {
     Side orderSide = SideMapper.getDomainSide(request.getSide());
+    Order newOrder = new Order(orderSide, request.getPrice(), request.getQuantity());
 
-    CreateOrderResponse response = CreateOrderResponse.newBuilder().setId(1).build();
+    newOrder = orderBook.addOrder(newOrder);
+
+    CreateOrderResponse response = CreateOrderResponse.newBuilder().setId(newOrder.getId()).build();
     responseObserver.onNext(response);
     responseObserver.onCompleted();
   }
