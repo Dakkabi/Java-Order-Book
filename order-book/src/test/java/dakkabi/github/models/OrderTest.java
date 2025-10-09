@@ -22,6 +22,7 @@ public class OrderTest {
     assertEquals(Side.ASK, order.getSide());
     assertEquals(100.56d, order.getPrice());
     assertEquals(10L, order.getQuantity());
+    assertEquals(Type.LIMIT, order.getType());
   }
 
   @Test
