@@ -11,11 +11,11 @@ public class OrderBookTest {
   public void getBestBidAndAskTest() {
     OrderBook orderBook = new OrderBook();
 
-    Order askOrder = new Order(Side.ASK, 100, 10);
-    Order worseAskOrder = new Order(Side.ASK, 500, 10);
+    Order askOrder = new Order(Side.ASK, Type.LIMIT, 100, 10);
+    Order worseAskOrder = new Order(Side.ASK, Type.LIMIT,500, 10);
 
-    Order bidOrder = new Order(Side.BID, 100, 10);
-    Order worseBidOrder = new Order(Side.BID, 50, 10);
+    Order bidOrder = new Order(Side.BID, Type.LIMIT, 100, 10);
+    Order worseBidOrder = new Order(Side.BID, Type.LIMIT, 50, 10);
 
     orderBook.addOrder(askOrder);
     orderBook.addOrder(worseAskOrder);
