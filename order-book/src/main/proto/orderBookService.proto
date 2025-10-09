@@ -7,10 +7,16 @@ enum Side {
   BID = 1;
 }
 
+enum OrderType {
+  MARKET = 0;
+  LIMIT = 1;
+}
+
 message CreateOrderRequest {
   Side side = 1;
-  double price = 2;
-  sint64 quantity = 3; // Java long's are 64bit signed integers.
+  OrderType type = 2;
+  double price = 3;
+  sint64 quantity = 4; // Java long's are 64bit signed integers.
 }
 
 message CreateOrderResponse {
