@@ -3,6 +3,7 @@ package dakkabi.github.service;
 import dakkabi.github.models.Order;
 import dakkabi.github.models.OrderBook;
 import dakkabi.github.models.Side;
+import dakkabi.github.models.Type;
 import dakkabi.github.proto.CreateOrderRequest;
 import dakkabi.github.proto.CreateOrderResponse;
 import dakkabi.github.proto.OrderBookServiceGrpc.OrderBookServiceImplBase;
@@ -28,8 +29,14 @@ public class OrderBookService extends OrderBookServiceImplBase {
       CreateOrderRequest request,
       StreamObserver<CreateOrderResponse> responseObserver
   ) {
-    Side orderSide = SideMapper.getDomainSide(request.getSide());
-    Order newOrder = new Order(orderSide, request.getPrice(), request.getQuantity());
+    Side orderSide = ProtoAdapter.getDomainSide(request.getSide());
+    Type orderType = ProtoAdapter.getDomainType(request.getType());
+    Order newOrder = new Order(
+        orderSide,
+        orderType,
+        request.getPrice(),
+        request.getQuantity()
+    );
 
     newOrder = orderBook.addOrder(newOrder);
 
