@@ -4,6 +4,12 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import dakkabi.github.proto.OrderBookServiceGrpc;
+import dakkabi.github.proto.StartConnectionRequest;
+import dakkabi.github.proto.StartConnectionResponse;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+
 import java.io.IOException;
 
 /**
@@ -60,6 +66,17 @@ public class GrpcClient {
   public static void main(String[] args) throws IOException {
     Screen screen = new DefaultTerminalFactory().createScreen();
     screen.startScreen();
+
+    ManagedChannel channel = ManagedChannelBuilder
+        .forAddress("localhost", 8080)
+        .usePlaintext()
+        .build();
+
+    OrderBookServiceGrpc.OrderBookServiceBlockingStub stub
+        = OrderBookServiceGrpc.newBlockingStub(channel);
+
+    StartConnectionRequest startConnectionRequest = StartConnectionRequest.newBuilder()
+        .build();
 
     while (true) {
       if (screen.doResizeIfNecessary() != null) {
