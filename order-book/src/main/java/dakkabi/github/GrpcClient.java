@@ -1,11 +1,10 @@
 package dakkabi.github;
 
-import dakkabi.github.proto.CreateOrderRequest;
-import dakkabi.github.proto.CreateOrderResponse;
-import dakkabi.github.proto.OrderBookServiceGrpc;
-import dakkabi.github.proto.Side;
+import dakkabi.github.proto.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+
+import java.util.Scanner;
 
 /**
  * A client class to communicate with the gRPC server class.
@@ -24,15 +23,37 @@ public class GrpcClient {
     OrderBookServiceGrpc.OrderBookServiceBlockingStub stub
         = OrderBookServiceGrpc.newBlockingStub(channel);
 
-    CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
-        .setSide(Side.ASK)
-        .setPrice(50.54)
-        .setQuantity(10)
-        .build();
+    Scanner scanner = new Scanner(System.in);
 
-    CreateOrderResponse createOrderResponse = stub.createOrder(createOrderRequest);
+    while (true) {
+      System.out.println("New Order? (Y/N)");
+      if (scanner.nextLine().equals("N")) {
+        break;
+      }
 
-    System.out.println(createOrderResponse.getId());
+      System.out.println("Enter Order side:");
+      Side orderSide = Side.valueOf(scanner.nextLine().toUpperCase());
+
+      System.out.println("Enter Order type:");
+      OrderType orderType = OrderType.valueOf(scanner.nextLine().toUpperCase());
+
+      System.out.println("Enter Order price:");
+      double price = Long.parseLong(scanner.nextLine());
+
+      System.out.println("Enter Order quantity:");
+      long quantity = Long.parseLong(scanner.nextLine());
+
+      CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
+          .setSide(orderSide)
+          .setType(orderType)
+          .setPrice(price)
+          .setQuantity(quantity)
+          .build();
+
+      CreateOrderResponse createOrderResponse = stub.createOrder(createOrderRequest);
+
+      System.out.println("Order created, Order ID:" + createOrderResponse.getId());
+    }
 
     channel.shutdown();
   }
