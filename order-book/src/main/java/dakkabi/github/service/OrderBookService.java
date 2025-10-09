@@ -7,6 +7,8 @@ import dakkabi.github.models.Type;
 import dakkabi.github.proto.CreateOrderRequest;
 import dakkabi.github.proto.CreateOrderResponse;
 import dakkabi.github.proto.OrderBookServiceGrpc.OrderBookServiceImplBase;
+import dakkabi.github.proto.StartConnectionRequest;
+import dakkabi.github.proto.StartConnectionResponse;
 import io.grpc.stub.StreamObserver;
 
 /**
@@ -41,6 +43,19 @@ public class OrderBookService extends OrderBookServiceImplBase {
     newOrder = orderBook.addOrder(newOrder);
 
     CreateOrderResponse response = CreateOrderResponse.newBuilder().setId(newOrder.getId()).build();
+    responseObserver.onNext(response);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void startConnection(
+      StartConnectionRequest request,
+      StreamObserver<StartConnectionResponse> responseObserver
+  ) {
+    StartConnectionResponse response = StartConnectionResponse
+        .newBuilder()
+        .setMessage("All Good!")
+        .build();
     responseObserver.onNext(response);
     responseObserver.onCompleted();
   }
