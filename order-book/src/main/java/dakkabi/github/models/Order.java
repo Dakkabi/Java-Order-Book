@@ -5,6 +5,7 @@ package dakkabi.github.models;
  */
 public class Order {
   private Long id;
+  private final Type type;
   private final Side side;
   private final double price;
   private final long quantity;
@@ -14,11 +15,13 @@ public class Order {
    * managed by the Order Book.
    *
    * @param side Whether the client intends to Buy or Sell.
+   * @param type The order type specifying how the order should be executed.
    * @param price The price amount they are willing to Buy or Sell.
    * @param quantity The quantity they are willing to Buy or Sell.
    */
-  public Order(Side side, double price, long quantity) {
+  public Order(Side side, Type type, double price, long quantity) {
     this.side = side;
+    this.type = type;
 
     if (quantity < 0) {
       throw new IllegalArgumentException("Quantity cannot be negative");
@@ -38,6 +41,10 @@ public class Order {
 
   public Side getSide() {
     return side;
+  }
+
+  public Type getType() {
+    return type;
   }
 
   public double getPrice() {
