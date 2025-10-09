@@ -11,7 +11,6 @@ import dakkabi.github.proto.OrderBookServiceGrpc;
 import dakkabi.github.proto.StartConnectionRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-
 import java.io.IOException;
 
 /**
