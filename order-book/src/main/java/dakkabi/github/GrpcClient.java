@@ -1,9 +1,13 @@
 package dakkabi.github;
 
-import dakkabi.github.proto.*;
+
+import dakkabi.github.proto.CreateOrderRequest;
+import dakkabi.github.proto.CreateOrderResponse;
+import dakkabi.github.proto.OrderBookServiceGrpc;
+import dakkabi.github.proto.Side;
+import dakkabi.github.proto.Type;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-
 import java.util.Scanner;
 
 /**
