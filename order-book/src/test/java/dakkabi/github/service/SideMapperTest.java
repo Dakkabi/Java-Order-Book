@@ -9,8 +9,8 @@ public class SideMapperTest {
 
   @Test
   public void getDomainSideTest() {
-    new SideMapper(); // Required for Jacoco coverage.
+    new ProtoAdapter(); // Required for Jacoco coverage.
 
-    assertEquals(Side.class, SideMapper.getDomainSide(dakkabi.github.proto.Side.ASK).getClass());
+    assertEquals(Side.class, ProtoAdapter.getDomainSide(dakkabi.github.proto.Side.ASK).getClass());
   }
 }
