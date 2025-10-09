@@ -23,6 +23,13 @@ message CreateOrderResponse {
   sint64 id = 1;
 }
 
+message StartConnectionRequest {}
+
+message StartConnectionResponse {
+  string message = 1;
+}
+
 service OrderBookService {
   rpc createOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc startConnection(StartConnectionRequest) returns (StartConnectionResponse);
 }

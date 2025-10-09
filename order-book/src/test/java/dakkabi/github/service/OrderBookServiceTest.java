@@ -1,10 +1,7 @@
 package dakkabi.github.service;
 
 import dakkabi.github.models.OrderBook;
-import dakkabi.github.proto.CreateOrderRequest;
-import dakkabi.github.proto.CreateOrderResponse;
-import dakkabi.github.proto.OrderBookServiceGrpc;
-import dakkabi.github.proto.Side;
+import dakkabi.github.proto.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Server;
@@ -36,6 +33,14 @@ public class OrderBookServiceTest {
   public void afterEach() {
     channel.shutdownNow();
     server.shutdownNow();
+  }
+
+  @Test
+  public void startConnectionTest() {
+    StartConnectionRequest request = StartConnectionRequest.newBuilder().build();
+    StartConnectionResponse response = orderBookStub.startConnection(request);
+
+    assertNotNull(response);
   }
 
   @Test

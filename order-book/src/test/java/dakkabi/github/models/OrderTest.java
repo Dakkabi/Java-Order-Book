@@ -11,7 +11,7 @@ public class OrderTest {
 
   @BeforeEach
   public void beforeEach() {
-    order = new Order(Side.ASK, 100.56d, 10);
+    order = new Order(Side.ASK, Type.LIMIT,100.56d, 10);
   }
 
   @Test
@@ -22,10 +22,11 @@ public class OrderTest {
     assertEquals(Side.ASK, order.getSide());
     assertEquals(100.56d, order.getPrice());
     assertEquals(10L, order.getQuantity());
+    assertEquals(Type.LIMIT, order.getType());
   }
 
   @Test
   public void illegalArgumentExceptionTest() {
-    Assertions.assertThrows(IllegalArgumentException.class, () -> new Order(Side.ASK, 100.56d, -100));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> new Order(Side.ASK, Type.LIMIT,100.56d, -100));
   }
 }

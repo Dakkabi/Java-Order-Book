@@ -1,60 +1,121 @@
 package dakkabi.github;
 
-import dakkabi.github.proto.*;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import dakkabi.github.proto.OrderBookServiceGrpc;
+import dakkabi.github.proto.StartConnectionRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-
-import java.util.Scanner;
+import java.io.IOException;
 
 /**
  * A client class to communicate with the gRPC server class.
  */
 public class GrpcClient {
+
+  private static void drawBorders(Screen screen) throws IOException {
+    TerminalSize terminalSize = screen.getTerminalSize();
+
+    TextGraphics text = screen.newTextGraphics();
+
+    int columns = terminalSize.getColumns();
+    int rows = terminalSize.getRows();
+
+    for (int col = 0; col < columns / 2; col++) {
+      text.putString(col, rows / 2,  "-");
+    }
+
+    for (int row = 0; row < rows; row++) {
+      text.putString(columns / 2, row, "|");
+    }
+  }
+
+  private static void drawTitles(Screen screen) throws IOException {
+    TerminalSize terminalSize = screen.getTerminalSize();
+
+    TextGraphics text = screen.newTextGraphics();
+
+    int columns = terminalSize.getColumns();
+    int rows = terminalSize.getRows();
+
+    String yourOrders = "Your Orders";
+    text.putString((columns / 4) - (yourOrders.length() / 2), rows / 2 + 1, yourOrders);
+
+    String newOrder = "New Order";
+    text.putString((columns / 4) - (newOrder.length() / 2), 0, newOrder);
+
+    String orderBook = "Order Book";
+    text.putString((3 * columns / 4) - (orderBook.length() / 2), 0, orderBook);
+  }
+
+  private static void drawFooter(Screen screen) throws IOException {
+    TerminalSize terminalSize = screen.getTerminalSize();
+
+    TextGraphics text = screen.newTextGraphics();
+
+    int columns = terminalSize.getColumns();
+    int rows = terminalSize.getRows();
+
+    text.setForegroundColor(TextColor.ANSI.BLACK);
+    text.setBackgroundColor(TextColor.ANSI.WHITE);
+
+    for (int col = 0; col < columns; col++) {
+      text.putString(col, rows - 1, " ");
+    }
+
+    String[] controls = {"Exit: ESC"};
+    for (int index = 0; index < controls.length; index++) {
+      text.putString((columns * index) / controls.length, rows - 1, controls[index]);
+    }
+  }
+
+  private static void draw(Screen screen) throws IOException {
+    drawBorders(screen);
+    drawTitles(screen);
+    drawFooter(screen);
+    screen.refresh();
+  }
+
   /**
    * Main process for the gRPC client.
    *
    * @param args Optional additional parameters, does nothing.
    */
-  public static void main(String[] args) {
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
+  public static void main(String[] args) throws IOException {
+    Screen screen = new DefaultTerminalFactory().createScreen();
+    screen.startScreen();
+
+    ManagedChannel channel = ManagedChannelBuilder
+        .forAddress("localhost", 8080)
         .usePlaintext()
         .build();
 
     OrderBookServiceGrpc.OrderBookServiceBlockingStub stub
         = OrderBookServiceGrpc.newBlockingStub(channel);
 
-    Scanner scanner = new Scanner(System.in);
+    StartConnectionRequest startConnectionRequest = StartConnectionRequest.newBuilder()
+        .build();
 
     while (true) {
-      System.out.println("New Order? (Y/N)");
-      if (scanner.nextLine().equals("N")) {
-        break;
+      if (screen.doResizeIfNecessary() != null) {
+        screen.clear();
+        draw(screen);
       }
 
-      System.out.println("Enter Order side:");
-      Side orderSide = Side.valueOf(scanner.nextLine().toUpperCase());
-
-      System.out.println("Enter Order type:");
-      Type orderType = Type.valueOf(scanner.nextLine().toUpperCase());
-
-      System.out.println("Enter Order price:");
-      double price = Long.parseLong(scanner.nextLine());
-
-      System.out.println("Enter Order quantity:");
-      long quantity = Long.parseLong(scanner.nextLine());
-
-      CreateOrderRequest createOrderRequest = CreateOrderRequest.newBuilder()
-          .setSide(orderSide)
-          .setType(orderType)
-          .setPrice(price)
-          .setQuantity(quantity)
-          .build();
-
-      CreateOrderResponse createOrderResponse = stub.createOrder(createOrderRequest);
-
-      System.out.println("Order created, Order ID:" + createOrderResponse.getId());
+      KeyStroke keyStroke = screen.pollInput();
+      if (keyStroke != null) {
+        if (keyStroke.getKeyType() == KeyType.Escape) {
+          break;
+        }
+      }
     }
 
     channel.shutdown();
+    screen.close();
   }
 }
