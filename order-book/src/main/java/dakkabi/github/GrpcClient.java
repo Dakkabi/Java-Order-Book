@@ -18,6 +18,7 @@ import java.io.IOException;
  */
 public class GrpcClient {
 
+
   private static void drawBorders(Screen screen) throws IOException {
     TerminalSize terminalSize = screen.getTerminalSize();
 
@@ -117,5 +118,6 @@ public class GrpcClient {
 
     channel.shutdown();
     screen.close();
+    System.exit(0);
   }
 }
