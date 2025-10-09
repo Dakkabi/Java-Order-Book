@@ -1,12 +1,14 @@
 package dakkabi.github;
 
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import dakkabi.github.proto.OrderBookServiceGrpc;
 import dakkabi.github.proto.StartConnectionRequest;
-import dakkabi.github.proto.StartConnectionResponse;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -52,9 +54,31 @@ public class GrpcClient {
     text.putString((3 * columns / 4) - (orderBook.length() / 2), 0, orderBook);
   }
 
+  private static void drawFooter(Screen screen) throws IOException {
+    TerminalSize terminalSize = screen.getTerminalSize();
+
+    TextGraphics text = screen.newTextGraphics();
+
+    int columns = terminalSize.getColumns();
+    int rows = terminalSize.getRows();
+
+    text.setForegroundColor(TextColor.ANSI.BLACK);
+    text.setBackgroundColor(TextColor.ANSI.WHITE);
+
+    for (int col = 0; col < columns; col++) {
+      text.putString(col, rows - 1, " ");
+    }
+
+    String[] controls = {"Exit: ESC"};
+    for (int index = 0; index < controls.length; index++) {
+      text.putString((columns * index) / controls.length, rows - 1, controls[index]);
+    }
+  }
+
   private static void draw(Screen screen) throws IOException {
     drawBorders(screen);
     drawTitles(screen);
+    drawFooter(screen);
     screen.refresh();
   }
 
@@ -83,6 +107,16 @@ public class GrpcClient {
         screen.clear();
         draw(screen);
       }
+
+      KeyStroke keyStroke = screen.pollInput();
+      if (keyStroke != null) {
+        if (keyStroke.getKeyType() == KeyType.Escape) {
+          break;
+        }
+      }
     }
+
+    channel.shutdown();
+    screen.close();
   }
 }
