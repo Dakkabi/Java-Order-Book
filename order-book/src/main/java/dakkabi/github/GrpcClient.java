@@ -35,7 +35,7 @@ public class GrpcClient {
       Side orderSide = Side.valueOf(scanner.nextLine().toUpperCase());
 
       System.out.println("Enter Order type:");
-      OrderType orderType = OrderType.valueOf(scanner.nextLine().toUpperCase());
+      Type orderType = Type.valueOf(scanner.nextLine().toUpperCase());
 
       System.out.println("Enter Order price:");
       double price = Long.parseLong(scanner.nextLine());
